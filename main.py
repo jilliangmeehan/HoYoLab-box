@@ -65,10 +65,10 @@ def format_game_stats(game):
     elif game_id == 6:  # Honkai: Star Rail
         return f"🎮 {game_name}\n"\
                f"⚔️ Lv.{level}\n"\
-               f"🕹️ Active Days: {get_stat(['Active Days', 'Days Active', '活跃天数'])}\n"\
-               f"🤝 Characters: {get_stat(['Characters', 'Characters Obtained', '已解锁角色'])}\n"\
-               f"🏆 Achievements: {get_stat(['Achievements', 'Achievements Unlocked', '达成成就数'])}\n"\
-               f"🎁 Chests Opened: {get_stat(['Chests Opened', 'Treasures Opened', '战利品开启'])}\n"
+               f"🕹️ Active Days: {get_stat(['Time Active', 'Active Days', 'Days Active', '活跃天数'])}\n"\
+               f"🤝 Characters: {get_stat(['Characters Unlocked', 'Characters', 'Characters Obtained', '已解锁角色'])}\n"\
+               f"🏆 Achievements: {get_stat(['Achievements Unlocked', 'Achievements', 'Achievement Count', '达成成就数'])}\n"\
+               f"🎁 Chests Opened: {get_stat(['Treasures Opened', 'Chests Opened', 'Treasure Chests Opened', '战利品开启'])}\n"
     
     elif game_id == 8:  # Zenless Zone Zero
         return f"🎮 {game_name}\n"\
