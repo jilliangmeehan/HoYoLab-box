@@ -1,19 +1,26 @@
 name: Update gist
 on:
-  workflow_dispatch:
   schedule:
     - cron: "0 * * * *"
+  workflow_dispatch:
 
 jobs:
   update-gist:
     runs-on: ubuntu-latest
-    environment: Main
+    environment: Main  # Specify the environment here
     steps:
       - name: "Checkout"
-        uses: actions/checkout@main
+        uses: actions/checkout@v2
 
-      - name: "Pip install"
-        run: pip install -r requirements.txt
+      - name: "Set up Python"
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: "Install dependencies"
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: "Update gist"
         env:
@@ -21,5 +28,5 @@ jobs:
           HOYO_TOKEN: ${{ secrets.HOYO_TOKEN }}
           HOYO_TMID: ${{ secrets.HOYO_TMID }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GIST_ID: ad0ca0c977d91b30b1e4f48fd2b71ba7
+          GIST_ID: ${{ secrets.GIST_ID }}
         run: python main.py
