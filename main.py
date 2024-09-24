@@ -83,4 +83,44 @@ def format_game_stats(game):
                f"⚔️ Lv.{level}\n"\
                + "\n".join(f"{key}: {value}" for key, value in stats.items())
 
-# ... rest of the script remains the same
+def update_gist(gh_api_url, gh_token, gist_id, hoyo_data):
+    if not hoyo_data:
+        print("Error: No data to update gist")
+        return
+
+    str_hoyo_data = ""
+    for game in hoyo_data:
+        str_hoyo_data += format_game_stats(game) + "\n"
+
+    data = {
+        'description': '🎮 HoYoverse gameplay stats',
+        'files': {'🎮 HoYoverse gameplay stats': {'content': str_hoyo_data}}
+    }
+
+    try:
+        response = requests.patch(
+            url=f'{gh_api_url}/gists/{gist_id}',
+            headers={
+                'Authorization': f'token {gh_token}',
+                'Accept': 'application/json'
+            },
+            json=data
+        )
+        response.raise_for_status()
+        print("Gist updated successfully!")
+    except requests.exceptions.RequestException as e:
+        print(f"Error updating gist: {e}")
+
+if __name__ == '__main__':
+    hoyo_uid = os.environ['HOYO_UID']
+    hoyo_token = os.environ['HOYO_TOKEN']
+    hoyo_tmid = os.environ['HOYO_TMID']
+    gh_token = os.environ['GH_TOKEN']
+    gist_id = os.environ['GIST_ID']
+    gh_api_url = 'https://api.github.com'
+
+    hoyo_data = get_data_from_hoyolab(hoyo_uid, hoyo_token, hoyo_tmid)
+    if hoyo_data:
+        update_gist(gh_api_url, gh_token, gist_id, hoyo_data)
+    else:
+        print("Failed to retrieve data from HoYoLab")
