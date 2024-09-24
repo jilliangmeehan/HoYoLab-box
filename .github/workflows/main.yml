@@ -7,22 +7,22 @@ on:
 jobs:
   update-gist:
     runs-on: ubuntu-latest
-    environment: Main  # Specify the environment here
+    environment: Main
     steps:
-      - name: "Checkout"
+      - name: Checkout
         uses: actions/checkout@v2
 
-      - name: "Set up Python"
+      - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: '3.9'  # Specify a stable Python version
 
-      - name: "Install dependencies"
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install requests==2.26.0 urllib3==1.26.7
 
-      - name: "Update gist"
+      - name: Update gist
         env:
           HOYO_UID: ${{ secrets.HOYO_UID }}
           HOYO_TOKEN: ${{ secrets.HOYO_TOKEN }}
